@@ -1,16 +1,8 @@
 #!/bin/bash
 #Скрипт для поиска исполняемых файлов в папке /usr
-IFS=:
-for folder in /usr
+for file in `find /usr/bin -type f -executable`
 do
-	echo "$folder:"
-	for file in $folder/*
-	do
-		if [ -x $file ]
-		then 
-			echo " $file"
-		fi
-	done
+	echo "$file" >> executable.txt
 done
 
 
