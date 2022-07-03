@@ -1,0 +1,6 @@
+#Ignore these types of files!
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraformrc
+terraform.rc
