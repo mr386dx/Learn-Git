@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git_checkout') {
+            steps {
+                git branch: 'master',
+                    url:'https://github.com/mr386dx/Learn-Git.git'
+                    }
+                }
+            
+
+
+        stage ('Stop Apache2') {
+            steps {
+                dir ('Lesson7') {
+                    sh 'bash stop_apache.sh'
+                }
+            }
+        }
+        stage ('Start Apache2') {
+            steps {
+                sh 'sleep 5'
+                sh 'sudo systemctl start apache2'
+            }
+        }
+        stage ('Status checking') {
+            steps {
+                sh '''pid=$( pgrep -f apache2 | head -1 )
+                        if [ $pid -gt 0 ]
+                            then 
+                                echo " Build status OK "
+                            else 
+                                echo " Build status Failed"
+
+                        fi '''
+            }
+        }
+    }
+}
+          
+                    
+                                
