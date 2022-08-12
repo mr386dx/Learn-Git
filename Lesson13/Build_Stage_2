@@ -1,0 +1,50 @@
+package LearnGit.buildTypes
+
+import jetbrains.buildServer.configs.kotlin.*
+import jetbrains.buildServer.configs.kotlin.buildSteps.exec
+import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.triggers.finishBuildTrigger
+
+object LearnGit_BuildStage2 : BuildType({
+    uuid = "3eab06fb-6a6c-4d89-b23e-3c8369d54b84"
+    name = "Build_Stage_2"
+
+    artifactRules = "Lesson13 => Lesson13"
+    publishArtifacts = PublishMode.SUCCESSFUL
+
+    vcs {
+        root(LearnGit.vcsRoots.LearnGit_HttpsGithubComMr386dxLearnGitGitRefsHeadsMaster1)
+    }
+
+    steps {
+        exec {
+            name = "cmd_names.sh"
+            path = "Lesson6/cmd_names.sh"
+        }
+        exec {
+            name = "pid_fd_list.sh"
+            path = "Lesson6/pid_fd_list.sh"
+        }
+        exec {
+            name = "py_search.sh"
+            enabled = false
+            path = "Lesson6/py_search.sh"
+        }
+        exec {
+            name = "usr_executables.sh"
+            path = "Lesson6/usr_executables.sh"
+        }
+        script {
+            name = "Finalization"
+            workingDir = "Lesson6"
+            scriptContent = "zip %system.teamcity.build.checkoutDir%/Lesson13/release_ver_%teamcity.build.id% *.sh"
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "${LearnGit_Build.id}"
+            successfulOnly = true
+        }
+    }
+})
