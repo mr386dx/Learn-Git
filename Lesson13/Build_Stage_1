@@ -1,0 +1,38 @@
+package LearnGit.buildTypes
+
+import jetbrains.buildServer.configs.kotlin.*
+import jetbrains.buildServer.configs.kotlin.buildSteps.exec
+import jetbrains.buildServer.configs.kotlin.triggers.vcs
+
+object LearnGit_Build : BuildType({
+    uuid = "ea90ef66-f379-4b46-93a3-fb807503e011"
+    name = "Build_Stage_1"
+
+    vcs {
+        root(LearnGit.vcsRoots.LearnGit_HttpsGithubComMr386dxLearnGitGitRefsHeadsMaster)
+    }
+
+    steps {
+        exec {
+            name = "etc_dir.sh"
+            path = "Lesson5/etc_dir.sh"
+        }
+        exec {
+            name = "executable_files.sh"
+            path = "Lesson5/executable_files.sh"
+        }
+        exec {
+            name = "file_list.sh"
+            path = "Lesson5/file_list.sh"
+        }
+        exec {
+            name = "for_cat_file.sh"
+            path = "Lesson5/for_cat_file.sh"
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+})
